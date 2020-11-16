@@ -1,7 +1,5 @@
-#TODO: Hash Passwords
-#TODO: Swagger Credentials
-#TODO: Use real Database
-#import uvicorn
+#TODO: Use real Database if arc.dev team wants me to.
+
 
 from typing import Optional, List
 from datetime import datetime
@@ -357,7 +355,7 @@ def welcome():
     return """
     <html>
         <head>
-            <title>arc.dev Intro | Sakander Zirai | @suioni</title>
+            <title>arc.dev intro | Sakander Zirai | @suioni</title>
         </head>
         <body>
             <h1>arc.dev Intro Challenge</h1>
