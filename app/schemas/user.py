@@ -1,10 +1,8 @@
+from functools import reduce
 from typing import Optional
+from uuid import UUID
 
 from pydantic import BaseModel, EmailStr, HttpUrl, validator
-
-from functools import reduce
-
-from uuid import UUID
 
 from app.core.config import settings
 
@@ -22,33 +20,30 @@ class UserCreate(UserBase):
     email: EmailStr
     password: str
 
-    @validator('password')
+    @validator("password")
     def must_be_long(cls, pw: str):
-        assert len(pw) >= 8, 'Password must be at least 8 characters long'
+        assert len(pw) >= 8, "Password must be at least 8 characters long"
         return pw
 
-    @validator('password')
+    @validator("password")
     def must_have_capital(cls, pw: str):
         assert reduce(
-            lambda a, b: a or b,
-            [char.isupper() for char in pw
-             ]), 'Password must contain at least one uppercase character'
+            lambda a, b: a or b, [char.isupper() for char in pw]
+        ), "Password must contain at least one uppercase character"
         return pw
 
-    @validator('password')
+    @validator("password")
     def must_have_lower(cls, pw: str):
         assert reduce(
-            lambda a, b: a or b,
-            [char.islower() for char in pw
-             ]), 'Password must contain at least one lowercase character'
+            lambda a, b: a or b, [char.islower() for char in pw]
+        ), "Password must contain at least one lowercase character"
         return pw
 
-    @validator('password')
+    @validator("password")
     def must_have_numeric(cls, pw: str):
         assert reduce(
-            lambda a, b: a or b,
-            [char.isnumeric() for char in pw
-             ]), 'Password must contain at least one numeric character'
+            lambda a, b: a or b, [char.isnumeric() for char in pw]
+        ), "Password must contain at least one numeric character"
         return pw
 
 

@@ -1,20 +1,22 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import Response
+from fastapi_jwt_auth import AuthJWT
 from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from app.api import deps
-
-from fastapi_jwt_auth import AuthJWT
-
-from fastapi.responses import Response
 from app.core import security
+
 router = APIRouter()
 
 
 # login User
 @router.post("/", response_model=schemas.AuthToken, status_code=status.HTTP_201_CREATED)
-def login(loginUser: schemas.UserLogin, db: Session = Depends(deps.get_db),
-          Authorize: AuthJWT = Depends()):
+def login(
+    loginUser: schemas.UserLogin,
+    db: Session = Depends(deps.get_db),
+    Authorize: AuthJWT = Depends(),
+):
 
     user = crud.user.authenticate(
         db, email=loginUser.email, password=loginUser.password
@@ -27,9 +29,9 @@ def login(loginUser: schemas.UserLogin, db: Session = Depends(deps.get_db),
     # subject identifier for who this token is for example id or username from database
     access_token = Authorize.create_access_token(subject=user.email)
     refresh_token = Authorize.create_refresh_token(subject=user.email)
-    return schemas.AuthToken(jwt=access_token,
-                             refresh_token=refresh_token,
-                             user_id=user.email)
+    return schemas.AuthToken(
+        jwt=access_token, refresh_token=refresh_token, user_id=user.email
+    )
 
 
 # refesh JWT Token
@@ -40,10 +42,10 @@ def refresh(refresh_token: schemas.AuthTokenRefresh, Authorize: AuthJWT = Depend
     # Is deny list automatically used?
     Authorize._verify_jwt_in_request(
         token=refresh_token,
-        type_token='refresh',
-        token_from='header',
+        type_token="refresh",
+        token_from="header",
     )
-    current_user = Authorize._verified_token(refresh_token)['sub']
+    current_user = Authorize._verified_token(refresh_token)["sub"]
     new_access_token = Authorize.create_access_token(subject=current_user)
 
     return schemas.AuthToken(jwt=new_access_token)
@@ -52,7 +54,7 @@ def refresh(refresh_token: schemas.AuthTokenRefresh, Authorize: AuthJWT = Depend
 # logout user
 @router.delete("/", status_code=status.HTTP_204_NO_CONTENT)
 def logout(
-    refresh_token: schemas.RefreshToken,
+    refresh_token: schemas.AuthTokenRefresh,
     Authorize: AuthJWT = Depends(),
     current_user: models.User = Depends(deps.get_current_active_user),
 ):

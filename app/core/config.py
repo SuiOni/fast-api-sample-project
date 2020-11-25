@@ -1,5 +1,6 @@
+from datetime import timedelta
 from typing import Any, Dict, List, Optional, Union
-from datetime import datetime, timedelta
+
 from pydantic import AnyHttpUrl, BaseSettings, PostgresDsn, validator
 
 
@@ -13,7 +14,9 @@ class Settings(BaseSettings):
     AUTHJWT_DENYLIST_ENABLED: bool = True
     AUTHJWT_DENYLIST_TOKEN_CHECKS: set = {"access", "refresh"}
 
-    GRAVATAR_DEFAULT_URL: str = "https://www.gravatar.com/avatar/00000000000000000000000000000000"
+    GRAVATAR_DEFAULT_URL: str = (
+        "https://www.gravatar.com/avatar/00000000000000000000000000000000"
+    )
 
     # SERVER_NAME: str
     SERVER_HOST: AnyHttpUrl
@@ -23,8 +26,7 @@ class Settings(BaseSettings):
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
 
     @validator("BACKEND_CORS_ORIGINS", pre=True)
-    def assemble_cors_origins(
-            cls, v: Union[str, List[str]]) -> Union[List[str], str]:
+    def assemble_cors_origins(cls, v: Union[str, List[str]]) -> Union[List[str], str]:
         if isinstance(v, str) and not v.startswith("["):
             return [i.strip() for i in v.split(",")]
         elif isinstance(v, (list, str)):
@@ -53,8 +55,8 @@ class Settings(BaseSettings):
 
     class Config:
         case_sensitive = False
-        env_file = '.env'
-        env_file_encoding = 'utf-8'
+        env_file = ".env"
+        env_file_encoding = "utf-8"
 
 
 settings = Settings()

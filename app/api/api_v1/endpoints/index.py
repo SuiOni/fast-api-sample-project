@@ -1,7 +1,5 @@
 from fastapi import APIRouter
-
 from fastapi.responses import HTMLResponse
-#from app.api import deps
 
 router = APIRouter()
 

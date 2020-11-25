@@ -1,12 +1,10 @@
+import uuid
 from typing import TYPE_CHECKING
 
-from sqlalchemy import Column, ForeignKey, Integer, String, DateTime
-from sqlalchemy.orm import column_property
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy.orm import column_property, relationship
 from sqlalchemy.sql import func
 from sqlalchemy_utils import UUIDType
-from sqlalchemy.orm import relationship
-
-import uuid
 
 from app.db.base_class import Base
 
@@ -15,8 +13,14 @@ if TYPE_CHECKING:
 
 
 class Idea(Base):
-    id = Column(UUIDType, primary_key=True, index=True,
-                default=uuid.uuid4, unique=True, nullable=False)
+    id = Column(
+        UUIDType,
+        primary_key=True,
+        index=True,
+        default=uuid.uuid4,
+        unique=True,
+        nullable=False,
+    )
     # id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4,
     #             unique=True, nullable=False)
 

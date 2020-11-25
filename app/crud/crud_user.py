@@ -18,7 +18,7 @@ class CRUDUser(CRUDBase[User, UserCreate, UserUpdate]):
             email=obj_in.email,
             hashed_password=get_password_hash(obj_in.password),
             name=obj_in.name,
-            avatar_url=gen_gravatar(obj_in.email)
+            avatar_url=gen_gravatar(obj_in.email),
         )
         db.add(db_obj)
         db.commit()

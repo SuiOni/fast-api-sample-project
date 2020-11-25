@@ -1,8 +1,7 @@
 from typing import Optional
+from uuid import UUID
 
 from pydantic import BaseModel, validator
-
-from uuid import UUID
 
 
 # Shared properties
@@ -20,10 +19,10 @@ class IdeaCreate(IdeaBase):
     ease: int
     confidence: int
 
-    @validator('impact', 'ease', 'confidence')
+    @validator("impact", "ease", "confidence")
     def max_value_10(cls, value: int):
         if value > 10 or value < 1:
-            raise ValueError('must be between 1 and 10 included')
+            raise ValueError("must be between 1 and 10 included")
         return value
 
 

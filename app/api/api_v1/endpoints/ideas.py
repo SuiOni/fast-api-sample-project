@@ -1,9 +1,8 @@
+from typing import Any, List, Optional
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import Response
-
 from sqlalchemy.orm import Session
-
-from typing import Optional, List, Any
 
 from app import crud, models, schemas
 from app.api import deps
@@ -15,7 +14,7 @@ router = APIRouter()
 async def post_idea(
     *,
     db: Session = Depends(deps.get_db),
-    idea_in: schemas.ItemCreate,
+    idea_in: schemas.IdeaCreate,
     current_user: models.User = Depends(deps.get_current_active_user),
 ) -> Any:
     """
