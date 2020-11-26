@@ -3,6 +3,8 @@ from typing import Any
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
+from fastapi_jwt_auth import AuthJWT
+
 from app import crud, models, schemas
 from app.api import deps
 
@@ -10,9 +12,9 @@ router = APIRouter()
 
 
 # create new  user
-@router.post("/users", response_model=schemas.User, status_code=status.HTTP_201_CREATED)
+@router.post("/users", response_model=schemas.AuthToken, status_code=status.HTTP_201_CREATED)
 def create_user(
-    *, db: Session = Depends(deps.get_db), user_in: schemas.UserCreate
+    *, db: Session = Depends(deps.get_db), user_in: schemas.UserCreate,Authorize: AuthJWT = Depends()
 ) -> Any:
     """
     Create new user.
@@ -21,11 +23,15 @@ def create_user(
     user = crud.user.get_by_email(db, email=user_in.email)
     if user:
         raise HTTPException(
-            status_code=400,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail="The user with this username already exists in the system.",
         )
     user = crud.user.create(db, obj_in=user_in)
-    return user
+    access_token = Authorize.create_access_token(subject=user.email)
+    refresh_token = Authorize.create_refresh_token(subject=user.email)
+    return schemas.AuthToken(
+        jwt=access_token, refresh_token=refresh_token, user_id=user.email
+    )
 
 
 @router.get("/me", response_model=schemas.User)
