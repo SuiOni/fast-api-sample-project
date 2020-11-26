@@ -8,8 +8,6 @@ from sqlalchemy_utils import URLType, UUIDType
 from app.core.config import settings
 from app.db.base_class import Base
 
-# from furl import furl
-
 
 if TYPE_CHECKING:
     from .idea import Idea  # noqa: F401

@@ -22,7 +22,6 @@ async def post_idea(
     Create new idea.
     """
     idea = crud.idea.create_with_owner(db=db, obj_in=idea_in, owner_id=current_user.id)
-    print(idea.__dict__)
     return idea
 
 

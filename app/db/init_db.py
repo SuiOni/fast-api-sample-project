@@ -5,7 +5,4 @@ from app.db import session
 
 
 def init_db(db: Session) -> None:
-    # Tables should be created with Alembic migrations
-    # But if you don't want to use migrations, create
-    # the tables un-commenting the next line
     base.Base.metadata.create_all(bind=session.engine)

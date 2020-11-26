@@ -33,14 +33,13 @@ class Idea(Base):
     owner_id = Column(UUIDType, ForeignKey("user.id"))
     owner = relationship("User", back_populates="ideas")
 
+    # Use this calculated property to adhere to api (expects UNIX Epoch timestamp).
     @hybrid_property
     def created_at(self):
         self.timestamp
-        print(self.timestamp.timestamp())
         return self.timestamp.timestamp()
 
     @hybrid_property
     def average_score(self):
         avg = (self.confidence + self.ease + self.impact) / 3.0
-        print("avg", avg, self.created_at)
         return avg
