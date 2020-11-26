@@ -2,7 +2,7 @@
 
 Welcome to the arc dev challenge solution of Sakander Zirai arc.dev/@SuiOni 👋
 
-Go to https://tr4rc5.deta.dev/docs to see Swagger API Documentation for this project 👀
+Go to https://ideas-projects.herokuapp.com/api/v1 to see Swagger API Documentation for this project 👀
 
 Backend is written in Python3 with the FastAPI Framework 🏎
 
@@ -15,7 +15,7 @@ More details: https://www.codementor.io/@codementorx/draft/ixvyx7tvj?utm_swu=466
 - Using seperate crud logic for easy extensibility
 - Using environment variables for enhanced security
 - Use real PostgreSQL Database hosted in Heroku
-- Host App itself with Heroku
+- Host App itself with Heroku => changed api url
 - CI/CD: Auto deployment
 - Added script for linting and formatting
 - DB initialisation scripts
