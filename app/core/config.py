@@ -5,6 +5,7 @@ from pydantic import AnyHttpUrl, BaseSettings, PostgresDsn, validator
 
 
 class Settings(BaseSettings):
+    APP_ENV: str = "development"
     API_V1_STR: str = "/api/v1"
     AUTHJWT_SECRET_KEY: str
     AUTHJWT_ACCESS_TOKEN_EXPIRE: timedelta = timedelta(minutes=10)
@@ -54,7 +55,6 @@ class Settings(BaseSettings):
 
     class Config:
         case_sensitive = False
-        
 
 
 settings = Settings()
