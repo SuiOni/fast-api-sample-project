@@ -1,6 +1,6 @@
+from datetime import datetime
 from typing import Optional
 from uuid import UUID
-from datetime import datetime
 
 from pydantic import BaseModel, validator
 
@@ -26,7 +26,7 @@ class IdeaCreate(IdeaBase):
     ease: int
     confidence: int
 
-    
+
 # Properties to receive on idea update
 class IdeaUpdate(IdeaBase):
     pass
@@ -41,6 +41,7 @@ class IdeaInDBBase(IdeaBase):
     confidence: int
     average_score: float
     created_at: int
+
     class Config:
         orm_mode = True
 

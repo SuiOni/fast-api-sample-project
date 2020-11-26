@@ -1,4 +1,5 @@
 from typing import Any, List, Optional
+from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import Response
@@ -6,8 +7,6 @@ from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from app.api import deps
-
-from uuid import UUID
 
 router = APIRouter()
 
@@ -39,9 +38,13 @@ def delete_idea(
     """
     idea = crud.idea.get(db=db, id=id)
     if not idea:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Idea not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Idea not found"
+        )
     if idea.owner_id != current_user.id:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Not enough permissions")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Not enough permissions"
+        )
     crud.idea.remove(db=db, id=id)
     return Response(status_code=status.HTTP_204_NO_CONTENT)
 
@@ -59,9 +62,13 @@ def update_idea(
     """
     idea = crud.idea.get(db=db, id=id)
     if not idea:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Idea not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Idea not found"
+        )
     if idea.owner_id != current_user.id:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Not enough permissions")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Not enough permissions"
+        )
     idea = crud.idea.update(db=db, db_obj=idea, obj_in=idea_in)
     return idea
 

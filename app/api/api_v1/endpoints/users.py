@@ -1,9 +1,8 @@
 from typing import Any
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
-
 from fastapi_jwt_auth import AuthJWT
+from sqlalchemy.orm import Session
 
 from app import crud, models, schemas
 from app.api import deps
@@ -12,9 +11,14 @@ router = APIRouter()
 
 
 # create new  user
-@router.post("/users", response_model=schemas.AuthToken, status_code=status.HTTP_201_CREATED)
+@router.post(
+    "/users", response_model=schemas.AuthToken, status_code=status.HTTP_201_CREATED
+)
 def create_user(
-    *, db: Session = Depends(deps.get_db), user_in: schemas.UserCreate,Authorize: AuthJWT = Depends()
+    *,
+    db: Session = Depends(deps.get_db),
+    user_in: schemas.UserCreate,
+    Authorize: AuthJWT = Depends()
 ) -> Any:
     """
     Create new user.
